@@ -1,0 +1,8 @@
+.git
+.github
+.claude
+scripts
+data
+wrangler.jsonc
+.gitignore
+.assetsignore
