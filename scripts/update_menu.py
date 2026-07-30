@@ -34,6 +34,7 @@ BASE_URL = "https://stravopys.com/mrwhite-3"
 ROOT = Path(__file__).resolve().parent.parent
 DATA_FILE = ROOT / "data" / "menu.json"
 MENU_HTML_FILE = ROOT / "menu.html"
+SITEMAP_FILE = ROOT / "sitemap.xml"
 
 HEADERS = {
     "User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) "
@@ -221,7 +222,18 @@ def render_menu_html(categories, updated_at: str) -> str:
 <title>Меню — Кальян-бар Mr.White 3 | Київ</title>
 <meta name="description" content="Повне меню кальян-бару Mr.White 3 у Києві: кальяни, коктейлі, кухня, напої та ціни. Оновлено {updated_at}.">
 <link rel="canonical" href="https://mrwhite3.com.ua/menu.html">
-<link rel="icon" href="assets/img/logo.webp" type="image/webp">
+
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://mrwhite3.com.ua/menu.html">
+<meta property="og:title" content="Меню — Кальян-бар Mr.White 3">
+<meta property="og:description" content="Кальяни, коктейлі, кухня та напої в Mr.White 3. Оновлено {updated_at}.">
+<meta property="og:image" content="https://mrwhite3.com.ua/assets/img/lounge.webp">
+<meta property="og:locale" content="uk_UA">
+
+<link rel="icon" href="favicon.ico" sizes="32x32">
+<link rel="icon" href="assets/img/favicon-32.png" type="image/png" sizes="32x32">
+<link rel="icon" href="assets/img/favicon-16.png" type="image/png" sizes="16x16">
+<link rel="apple-touch-icon" href="assets/img/apple-touch-icon.png">
 <link rel="stylesheet" href="assets/css/style.css">
 <script type="application/ld+json">{json.dumps(menu_ld, ensure_ascii=False)}</script>
 </head>
@@ -229,9 +241,8 @@ def render_menu_html(categories, updated_at: str) -> str:
 
 <header class="site-header" id="top">
   <div class="container header-inner">
-    <a href="index.html" class="logo">
-      <img src="assets/img/logo.webp" alt="Mr.White 3" width="40" height="40">
-      <span>Mr.White&nbsp;3</span>
+    <a href="index.html" class="logo" aria-label="Mr.White 3">
+      <span class="logo-neon">White</span>
     </a>
     <nav class="main-nav" id="mainNav">
       <a href="index.html#about">Про нас</a>
@@ -274,6 +285,24 @@ def render_menu_html(categories, updated_at: str) -> str:
 '''
 
 
+def render_sitemap(updated_at: str) -> str:
+    return f'''<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+  <url>
+    <loc>https://mrwhite3.com.ua/</loc>
+    <changefreq>monthly</changefreq>
+    <priority>1.0</priority>
+  </url>
+  <url>
+    <loc>https://mrwhite3.com.ua/menu.html</loc>
+    <lastmod>{updated_at}</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+</urlset>
+'''
+
+
 def load_previous_categories():
     if not DATA_FILE.exists():
         return None
@@ -285,6 +314,8 @@ def load_previous_categories():
 
 
 def main():
+    force = "--force" in sys.argv  # перегенерувати menu.html навіть без змін у стравах (напр. після правки шаблону)
+
     print(f"Тягну меню з {BASE_URL} ...")
     try:
         categories = scrape_menu()
@@ -293,7 +324,7 @@ def main():
         sys.exit(1)
 
     previous = load_previous_categories()
-    if previous == categories:
+    if previous == categories and not force:
         print("Змін у меню немає — файли не чіпаю.")
         sys.exit(0)
 
@@ -305,6 +336,7 @@ def main():
         encoding="utf-8",
     )
     MENU_HTML_FILE.write_text(render_menu_html(categories, updated_at), encoding="utf-8")
+    SITEMAP_FILE.write_text(render_sitemap(updated_at), encoding="utf-8")
 
     total_items = sum(len(c["items"]) for c in categories)
     print(f"Меню оновлено: {len(categories)} категорій, {total_items} позицій. "
