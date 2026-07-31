@@ -51,6 +51,9 @@ SOCIAL_ICONS_HTML = '''
       </a>
       <a href="https://www.tiktok.com/@mr.white_3.0" target="_blank" rel="noopener" class="icon-link" aria-label="TikTok">
         <svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor"><path d="M16.6 2h-3.2v13.6a2.8 2.8 0 1 1-2.4-2.77v-3.24a6 6 0 1 0 5.6 5.98V8.8a7 7 0 0 0 4.4 1.55V7.15A3.9 3.9 0 0 1 16.6 2z"/></svg>
+      </a>
+      <a href="https://t.me/MrWhite3_bot" target="_blank" rel="noopener" class="icon-link" aria-label="Telegram">
+        <svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor"><path d="M21.9 3.3 2.7 10.8c-1 .4-1 1.6.1 1.9l4.9 1.5 1.9 5.9c.3.9 1.4 1.1 2.1.5l2.7-2.5 5 3.7c.8.6 2 .2 2.2-.8l3.4-16.1c.2-1-.8-1.8-1.7-1.5zM8.9 14.3 18 8.1c.3-.2.6.2.3.4l-7.6 6.9-.3 3.3-1.5-4.4z"/></svg>
       </a>'''
 
 
