@@ -285,12 +285,6 @@ h2 { font-size: clamp(1.6rem, 3vw, 2.2rem); text-align: center; }
   overflow: hidden;
   background: var(--bg-alt);
 }
-.promo-card img {
-  width: 100%;
-  height: 200px;
-  object-fit: contain;
-  background: #fff;
-}
 .promo-card-body { padding: 20px; }
 .promo-card-body h2 {
   text-align: left;

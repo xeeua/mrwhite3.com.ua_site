@@ -175,10 +175,7 @@ def extract_promo(html: str):
         desc_match = re.search(r'<p class="card-text description">(.*?)</p>', chunk, re.DOTALL)
         description = clean_text(desc_match.group(1)) if desc_match else ""
 
-        img_match = re.search(r'class="square-image">\s*<picture>.*?<img[^>]+src="([^"]+)"', chunk, re.DOTALL)
-        image = f"https://stravopys.com{img_match.group(1)}" if img_match else ""
-
-        items.append({"name": name, "description": description, "image": image})
+        items.append({"name": name, "description": description})
 
     return items
 
@@ -336,13 +333,8 @@ def render_promo_html(items, updated_at: str) -> str:
     ld_items = []
 
     for item in items:
-        img_html = (
-            f'<img src="{htmlmod.escape(item["image"])}" alt="{htmlmod.escape(item["name"])}" loading="lazy">'
-            if item["image"] else ""
-        )
         cards.append(f'''
     <div class="promo-card">
-      {img_html}
       <div class="promo-card-body">
         <h2>{htmlmod.escape(item["name"])}</h2>
         <p>{htmlmod.escape(item["description"])}</p>
