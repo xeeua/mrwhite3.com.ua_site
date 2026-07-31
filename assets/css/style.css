@@ -270,6 +270,39 @@ h2 { font-size: clamp(1.6rem, 3vw, 2.2rem); text-align: center; }
   font-weight: 600;
 }
 
+/* Promo page */
+.promo-page h1 { text-align: center; }
+.promo-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 24px;
+  max-width: 960px;
+  margin: 40px auto 0;
+}
+.promo-card {
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  overflow: hidden;
+  background: var(--bg-alt);
+}
+.promo-card img {
+  width: 100%;
+  height: 200px;
+  object-fit: contain;
+  background: #fff;
+}
+.promo-card-body { padding: 20px; }
+.promo-card-body h2 {
+  text-align: left;
+  font-size: 1.15rem;
+  margin-bottom: 8px;
+}
+.promo-card-body p {
+  margin: 0;
+  color: var(--text-dim);
+  font-size: .92rem;
+}
+
 /* Responsive */
 @media (max-width: 860px) {
   .main-nav, .header-actions .icon-link { display: none; }

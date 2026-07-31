@@ -34,6 +34,7 @@ BASE_URL = "https://stravopys.com/mrwhite-3"
 ROOT = Path(__file__).resolve().parent.parent
 DATA_FILE = ROOT / "data" / "menu.json"
 MENU_HTML_FILE = ROOT / "menu.html"
+PROMO_HTML_FILE = ROOT / "promo.html"
 SITEMAP_FILE = ROOT / "sitemap.xml"
 
 HEADERS = {
@@ -42,7 +43,38 @@ HEADERS = {
     "Accept-Language": "uk,en;q=0.8",
 }
 
-EXCLUDED_SLUGS = {"promo"}  # рекламний банер, не список страв
+EXCLUDED_SLUGS = {"promo"}  # окрема сторінка акцій, не частина меню страв
+
+SOCIAL_ICONS_HTML = '''
+      <a href="https://www.instagram.com/mr.white.3.0/" target="_blank" rel="noopener" class="icon-link" aria-label="Instagram">
+        <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.2" cy="6.8" r="1.1" fill="currentColor" stroke="none"/></svg>
+      </a>
+      <a href="https://www.tiktok.com/@mr.white_3.0" target="_blank" rel="noopener" class="icon-link" aria-label="TikTok">
+        <svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor"><path d="M16.6 2h-3.2v13.6a2.8 2.8 0 1 1-2.4-2.77v-3.24a6 6 0 1 0 5.6 5.98V8.8a7 7 0 0 0 4.4 1.55V7.15A3.9 3.9 0 0 1 16.6 2z"/></svg>
+      </a>'''
+
+
+def render_header() -> str:
+    return f'''<header class="site-header" id="top">
+  <div class="container header-inner">
+    <a href="index.html" class="logo" aria-label="Mr.White 3">
+      <span class="logo-neon">White</span>
+    </a>
+    <nav class="main-nav" id="mainNav">
+      <a href="index.html#about">Про нас</a>
+      <a href="menu.html">Меню</a>
+      <a href="promo.html">Акції</a>
+      <a href="index.html#contacts">Контакти</a>
+    </nav>
+    <div class="header-actions">
+      <a href="tel:+380952345566" class="icon-link" aria-label="Подзвонити">☎</a>{SOCIAL_ICONS_HTML}
+      <a href="https://t.me/MrWhite3_bot" target="_blank" rel="noopener" class="btn btn-primary">Резерв столику</a>
+    </div>
+    <button class="burger" id="burger" aria-label="Меню" aria-expanded="false">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+</header>'''
 
 
 def fetch(url: str) -> str:
@@ -121,6 +153,39 @@ def extract_items(category_html: str, fallback_title: str):
         })
 
     return category_title, items
+
+
+def extract_promo(html: str):
+    item_pattern = re.compile(
+        r'<div class="card menu-item[^"]*"\s+data-id="[0-9a-fA-F]+"\s+data-price="[\d.]+">'
+    )
+    matches = list(item_pattern.finditer(html))
+
+    items = []
+    for i, m in enumerate(matches):
+        chunk_start = m.end()
+        chunk_end = matches[i + 1].start() if i + 1 < len(matches) else len(html)
+        chunk = html[chunk_start:chunk_end]
+
+        name_match = re.search(r'<h3 class="card-title">(.*?)</h3>', chunk, re.DOTALL)
+        name = clean_text(name_match.group(1)) if name_match else ""
+        if not name:
+            continue
+
+        desc_match = re.search(r'<p class="card-text description">(.*?)</p>', chunk, re.DOTALL)
+        description = clean_text(desc_match.group(1)) if desc_match else ""
+
+        img_match = re.search(r'class="square-image">\s*<picture>.*?<img[^>]+src="([^"]+)"', chunk, re.DOTALL)
+        image = f"https://stravopys.com{img_match.group(1)}" if img_match else ""
+
+        items.append({"name": name, "description": description, "image": image})
+
+    return items
+
+
+def scrape_promo():
+    html = fetch(f"{BASE_URL}/promo")
+    return extract_promo(html)
 
 
 def scrape_menu():
@@ -239,26 +304,7 @@ def render_menu_html(categories, updated_at: str) -> str:
 </head>
 <body>
 
-<header class="site-header" id="top">
-  <div class="container header-inner">
-    <a href="index.html" class="logo" aria-label="Mr.White 3">
-      <span class="logo-neon">White</span>
-    </a>
-    <nav class="main-nav" id="mainNav">
-      <a href="index.html#about">Про нас</a>
-      <a href="menu.html">Меню</a>
-      <a href="index.html#gallery">Фото</a>
-      <a href="index.html#contacts">Контакти</a>
-    </nav>
-    <div class="header-actions">
-      <a href="tel:+380952345566" class="icon-link" aria-label="Подзвонити">☎</a>
-      <a href="https://t.me/MrWhite3_bot" target="_blank" rel="noopener" class="btn btn-primary">Резерв столику</a>
-    </div>
-    <button class="burger" id="burger" aria-label="Меню" aria-expanded="false">
-      <span></span><span></span><span></span>
-    </button>
-  </div>
-</header>
+{render_header()}
 
 <main class="section menu-page">
   <div class="container">
@@ -269,6 +315,87 @@ def render_menu_html(categories, updated_at: str) -> str:
     <nav class="menu-jump"><ul>{nav_items}</ul></nav>
 
     {"".join(sections)}
+  </div>
+</main>
+
+<footer class="site-footer">
+  <div class="container footer-inner">
+    <p>&copy; <span id="year"></span> Mr.White 3. Кальян-бар у Києві.</p>
+    <p class="footer-note">Заклад для гостей 18+. Курити кальян шкідливо для здоров'я.</p>
+  </div>
+</footer>
+
+<script src="assets/js/main.js"></script>
+</body>
+</html>
+'''
+
+
+def render_promo_html(items, updated_at: str) -> str:
+    cards = []
+    ld_items = []
+
+    for item in items:
+        img_html = (
+            f'<img src="{htmlmod.escape(item["image"])}" alt="{htmlmod.escape(item["name"])}" loading="lazy">'
+            if item["image"] else ""
+        )
+        cards.append(f'''
+    <div class="promo-card">
+      {img_html}
+      <div class="promo-card-body">
+        <h2>{htmlmod.escape(item["name"])}</h2>
+        <p>{htmlmod.escape(item["description"])}</p>
+      </div>
+    </div>''')
+
+        ld_items.append({
+            "@type": "Offer",
+            "name": item["name"],
+            "description": item["description"],
+        })
+
+    promo_ld = {
+        "@context": "https://schema.org",
+        "@type": "ItemList",
+        "name": "Акції Mr.White 3",
+        "itemListElement": ld_items,
+    }
+
+    return f'''<!doctype html>
+<html lang="uk">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Акції — Кальян-бар Mr.White 3 | Київ</title>
+<meta name="description" content="Актуальні акції кальян-бару Mr.White 3 у Києві. Оновлено {updated_at}.">
+<link rel="canonical" href="https://mrwhite3.com.ua/promo.html">
+
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://mrwhite3.com.ua/promo.html">
+<meta property="og:title" content="Акції — Кальян-бар Mr.White 3">
+<meta property="og:description" content="Актуальні акції Mr.White 3. Оновлено {updated_at}.">
+<meta property="og:image" content="https://mrwhite3.com.ua/assets/img/lounge.webp">
+<meta property="og:locale" content="uk_UA">
+
+<link rel="icon" href="favicon.ico" sizes="32x32">
+<link rel="icon" href="assets/img/favicon-32.png" type="image/png" sizes="32x32">
+<link rel="icon" href="assets/img/favicon-16.png" type="image/png" sizes="16x16">
+<link rel="apple-touch-icon" href="assets/img/apple-touch-icon.png">
+<link rel="stylesheet" href="assets/css/style.css">
+<script type="application/ld+json">{json.dumps(promo_ld, ensure_ascii=False)}</script>
+</head>
+<body>
+
+{render_header()}
+
+<main class="section promo-page">
+  <div class="container">
+    <h1>Акції Mr.White 3</h1>
+    <p class="menu-updated">Оновлено {updated_at}. Актуальні акції — також у нашому
+      <a href="https://stravopys.com/mrwhite-3/promo" target="_blank" rel="noopener">QR-меню на Stravopys</a>.</p>
+
+    <div class="promo-grid">{"".join(cards)}</div>
   </div>
 </main>
 
@@ -299,48 +426,65 @@ def render_sitemap(updated_at: str) -> str:
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
+  <url>
+    <loc>https://mrwhite3.com.ua/promo.html</loc>
+    <lastmod>{updated_at}</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.6</priority>
+  </url>
 </urlset>
 '''
 
 
-def load_previous_categories():
+def load_previous():
     if not DATA_FILE.exists():
-        return None
+        return {}
     try:
-        saved = json.loads(DATA_FILE.read_text(encoding="utf-8"))
-        return saved.get("categories")
+        return json.loads(DATA_FILE.read_text(encoding="utf-8"))
     except (json.JSONDecodeError, OSError):
-        return None
+        return {}
 
 
 def main():
-    force = "--force" in sys.argv  # перегенерувати menu.html навіть без змін у стравах (напр. після правки шаблону)
+    force = "--force" in sys.argv  # перегенерувати сторінки навіть без змін у даних (напр. після правки шаблону)
 
-    print(f"Тягну меню з {BASE_URL} ...")
+    print(f"Тягну меню й акції з {BASE_URL} ...")
     try:
         categories = scrape_menu()
+        promo_items = scrape_promo()
     except Exception as exc:  # noqa: BLE001 - навмисно широкий except для звіту в консоль
-        print(f"ПОМИЛКА: не вдалося оновити меню: {exc}", file=sys.stderr)
+        print(f"ПОМИЛКА: не вдалося оновити дані: {exc}", file=sys.stderr)
         sys.exit(1)
 
-    previous = load_previous_categories()
-    if previous == categories and not force:
-        print("Змін у меню немає — файли не чіпаю.")
+    previous = load_previous()
+    categories_changed = previous.get("categories") != categories
+    promo_changed = previous.get("promo") != promo_items
+
+    if not categories_changed and not promo_changed and not force:
+        print("Змін немає — файли не чіпаю.")
         sys.exit(0)
 
     updated_at = date.today().isoformat()
 
     DATA_FILE.parent.mkdir(parents=True, exist_ok=True)
     DATA_FILE.write_text(
-        json.dumps({"updated_at": updated_at, "categories": categories}, ensure_ascii=False, indent=2),
+        json.dumps(
+            {"updated_at": updated_at, "categories": categories, "promo": promo_items},
+            ensure_ascii=False, indent=2,
+        ),
         encoding="utf-8",
     )
-    MENU_HTML_FILE.write_text(render_menu_html(categories, updated_at), encoding="utf-8")
+
+    if categories_changed or force:
+        MENU_HTML_FILE.write_text(render_menu_html(categories, updated_at), encoding="utf-8")
+    if promo_changed or force:
+        PROMO_HTML_FILE.write_text(render_promo_html(promo_items, updated_at), encoding="utf-8")
+
     SITEMAP_FILE.write_text(render_sitemap(updated_at), encoding="utf-8")
 
     total_items = sum(len(c["items"]) for c in categories)
-    print(f"Меню оновлено: {len(categories)} категорій, {total_items} позицій. "
-          f"Записано {DATA_FILE} та {MENU_HTML_FILE}.")
+    print(f"Оновлено. Меню: {len(categories)} категорій, {total_items} позицій. "
+          f"Акції: {len(promo_items)}.")
     sys.exit(0)
 
 
