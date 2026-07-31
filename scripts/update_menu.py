@@ -57,6 +57,15 @@ SOCIAL_ICONS_HTML = '''
       </a>'''
 
 
+GA_SNIPPET = '''<script async src="https://www.googletagmanager.com/gtag/js?id=G-LB3JE0N3KT"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-LB3JE0N3KT');
+</script>'''
+
+
 def render_header() -> str:
     return f'''<header class="site-header" id="top">
   <div class="container header-inner">
@@ -300,6 +309,7 @@ def render_menu_html(categories, updated_at: str) -> str:
 <link rel="icon" href="assets/img/favicon-16.png" type="image/png" sizes="16x16">
 <link rel="apple-touch-icon" href="assets/img/apple-touch-icon.png">
 <link rel="stylesheet" href="assets/css/style.css">
+{GA_SNIPPET}
 <script type="application/ld+json">{json.dumps(menu_ld, ensure_ascii=False)}</script>
 </head>
 <body>
@@ -378,6 +388,7 @@ def render_promo_html(items, updated_at: str) -> str:
 <link rel="icon" href="assets/img/favicon-16.png" type="image/png" sizes="16x16">
 <link rel="apple-touch-icon" href="assets/img/apple-touch-icon.png">
 <link rel="stylesheet" href="assets/css/style.css">
+{GA_SNIPPET}
 <script type="application/ld+json">{json.dumps(promo_ld, ensure_ascii=False)}</script>
 </head>
 <body>
