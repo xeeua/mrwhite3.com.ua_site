@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-08-03",
+  "updated_at": "2026-08-05",
   "categories": [
     {
       "slug": "food",
@@ -469,15 +469,15 @@
       "items": [
         {
           "subcategory": "It`s summer time!",
-          "name": "Mojito Mint Cordial",
-          "description": "White rum, mint cordial, lime fresh, mineral water",
-          "price": 398.0
+          "name": "Mojito mint cordial",
+          "description": "Освіжаючий мохіто на основі мʼятного кордіалу і білого рому",
+          "price": 249.0
         },
         {
           "subcategory": "It`s summer time!",
           "name": "Bacardi cola",
-          "description": "Rum, cola, lime fresh",
-          "price": 398.0
+          "description": "Освіжаюча класика з колою і білом ромом Bacardi",
+          "price": 249.0
         },
         {
           "subcategory": "It`s summer time!",
@@ -969,12 +969,6 @@
           "subcategory": "Пиво",
           "name": "Milky Mango",
           "description": "IBU 30 | ABV 5.5% | OG 16% Milkshake IPA з додаванням пюре королівського манго і лактози. Яскравий смак та аромат манго.",
-          "price": 149.0
-        },
-        {
-          "subcategory": "Пиво",
-          "name": "Noir",
-          "description": "IBU 27 | ABV 5.6% | OG 15.6% Сухий гастрономічний стаут. В ароматі – кава, шоколад, какао та трохи підкопчена паленість.",
           "price": 149.0
         },
         {
