@@ -224,7 +224,7 @@ def format_price(price: float) -> str:
     return f"{price:.2f} грн"
 
 
-def render_menu_html(categories, updated_at: str) -> str:
+def render_menu_html(categories, updated_display: str) -> str:
     nav_items = "".join(
         f'<li><a href="#cat-{c["slug"]}">{htmlmod.escape(c["title"])}</a></li>'
         for c in categories
@@ -294,13 +294,13 @@ def render_menu_html(categories, updated_at: str) -> str:
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Меню — Кальян-бар Mr.White 3 | Київ</title>
-<meta name="description" content="Повне меню кальян-бару Mr.White 3 у Києві: кальяни, коктейлі, кухня, напої та ціни. Оновлено {updated_at}.">
+<meta name="description" content="Повне меню кальян-бару Mr.White 3 у Києві: кальяни, коктейлі, кухня, напої та ціни. Оновлено {updated_display}.">
 <link rel="canonical" href="https://mrwhite3.com.ua/menu.html">
 
 <meta property="og:type" content="website">
 <meta property="og:url" content="https://mrwhite3.com.ua/menu.html">
 <meta property="og:title" content="Меню — Кальян-бар Mr.White 3">
-<meta property="og:description" content="Кальяни, коктейлі, кухня та напої в Mr.White 3. Оновлено {updated_at}.">
+<meta property="og:description" content="Кальяни, коктейлі, кухня та напої в Mr.White 3. Оновлено {updated_display}.">
 <meta property="og:image" content="https://mrwhite3.com.ua/assets/img/lounge.webp">
 <meta property="og:locale" content="uk_UA">
 
@@ -319,7 +319,7 @@ def render_menu_html(categories, updated_at: str) -> str:
 <main class="section menu-page">
   <div class="container">
     <h1>Меню Mr.White 3</h1>
-    <p class="menu-updated">Оновлено {updated_at}. Актуальне замовлення онлайн — у нашому
+    <p class="menu-updated">Оновлено {updated_display}. Актуальне замовлення онлайн — у нашому
       <a href="https://stravopys.com/mrwhite-3" target="_blank" rel="noopener">QR-меню на Stravopys</a>.</p>
 
     <nav class="menu-jump"><ul>{nav_items}</ul></nav>
@@ -341,7 +341,7 @@ def render_menu_html(categories, updated_at: str) -> str:
 '''
 
 
-def render_promo_html(items, updated_at: str) -> str:
+def render_promo_html(items, updated_display: str) -> str:
     cards = []
     ld_items = []
 
@@ -373,13 +373,13 @@ def render_promo_html(items, updated_at: str) -> str:
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Акції — Кальян-бар Mr.White 3 | Київ</title>
-<meta name="description" content="Актуальні акції кальян-бару Mr.White 3 у Києві. Оновлено {updated_at}.">
+<meta name="description" content="Актуальні акції кальян-бару Mr.White 3 у Києві. Оновлено {updated_display}.">
 <link rel="canonical" href="https://mrwhite3.com.ua/promo.html">
 
 <meta property="og:type" content="website">
 <meta property="og:url" content="https://mrwhite3.com.ua/promo.html">
 <meta property="og:title" content="Акції — Кальян-бар Mr.White 3">
-<meta property="og:description" content="Актуальні акції Mr.White 3. Оновлено {updated_at}.">
+<meta property="og:description" content="Актуальні акції Mr.White 3. Оновлено {updated_display}.">
 <meta property="og:image" content="https://mrwhite3.com.ua/assets/img/lounge.webp">
 <meta property="og:locale" content="uk_UA">
 
@@ -398,7 +398,7 @@ def render_promo_html(items, updated_at: str) -> str:
 <main class="section promo-page">
   <div class="container">
     <h1>Акції Mr.White 3</h1>
-    <p class="menu-updated">Оновлено {updated_at}. Актуальні акції — також у нашому
+    <p class="menu-updated">Оновлено {updated_display}. Актуальні акції — також у нашому
       <a href="https://stravopys.com/mrwhite-3/promo" target="_blank" rel="noopener">QR-меню на Stravopys</a>.</p>
 
     <div class="promo-grid">{"".join(cards)}</div>
@@ -470,7 +470,9 @@ def main():
         print("Змін немає — файли не чіпаю.")
         sys.exit(0)
 
-    updated_at = date.today().isoformat()
+    today = date.today()
+    updated_at = today.isoformat()  # ISO — потрібен саме такий формат для sitemap.xml
+    updated_display = today.strftime("%d.%m.%Y")  # людський формат для тексту на сторінках
 
     DATA_FILE.parent.mkdir(parents=True, exist_ok=True)
     DATA_FILE.write_text(
@@ -482,9 +484,9 @@ def main():
     )
 
     if categories_changed or force:
-        MENU_HTML_FILE.write_text(render_menu_html(categories, updated_at), encoding="utf-8")
+        MENU_HTML_FILE.write_text(render_menu_html(categories, updated_display), encoding="utf-8")
     if promo_changed or force:
-        PROMO_HTML_FILE.write_text(render_promo_html(promo_items, updated_at), encoding="utf-8")
+        PROMO_HTML_FILE.write_text(render_promo_html(promo_items, updated_display), encoding="utf-8")
 
     SITEMAP_FILE.write_text(render_sitemap(updated_at), encoding="utf-8")
 
