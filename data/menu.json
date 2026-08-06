@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-08-05",
+  "updated_at": "2026-08-06",
   "categories": [
     {
       "slug": "food",
@@ -469,15 +469,15 @@
       "items": [
         {
           "subcategory": "It`s summer time!",
-          "name": "Mojito mint cordial",
-          "description": "Освіжаючий мохіто на основі мʼятного кордіалу і білого рому",
-          "price": 249.0
+          "name": "Mojito Mint Cordial",
+          "description": "White rum, mint cordial, lime fresh, mineral water",
+          "price": 398.0
         },
         {
           "subcategory": "It`s summer time!",
           "name": "Bacardi cola",
-          "description": "Освіжаюча класика з колою і білом ромом Bacardi",
-          "price": 249.0
+          "description": "Rum, cola, lime fresh",
+          "price": 398.0
         },
         {
           "subcategory": "It`s summer time!",
@@ -793,15 +793,15 @@
         },
         {
           "subcategory": "Джин",
-          "name": "Tanqueray",
-          "description": "Легендарний лондонський сухий джин, свіжий і яскравий аромат з домінуючими нотками ялівцю, цитрусових фруктів та прянощів.",
-          "price": 159.0
+          "name": "Finsbury",
+          "description": "Класичний лондонський джин з багатою історією. Виготовлений за традиційними рецептами, він має м'який, збалансований смак з виразними нотами ялівцю та цитрусових.",
+          "price": 135.0
         },
         {
           "subcategory": "Джин",
-          "name": "Spogad Classic",
-          "description": "Сухий джин, класика смаку ялівцю, пряність коріандру та насиченість цитрусових віддтінків.",
-          "price": 135.0
+          "name": "Tanqueray",
+          "description": "Легендарний лондонський сухий джин, свіжий і яскравий аромат з домінуючими нотками ялівцю, цитрусових фруктів та прянощів.",
+          "price": 159.0
         },
         {
           "subcategory": "Текіла",
