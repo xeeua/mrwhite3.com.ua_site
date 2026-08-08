@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-08-06",
+  "updated_at": "2026-08-08",
   "categories": [
     {
       "slug": "food",
@@ -468,55 +468,55 @@
       "title": "Коктейлі",
       "items": [
         {
-          "subcategory": "It`s summer time!",
+          "subcategory": "Сезонні",
           "name": "Mojito Mint Cordial",
           "description": "White rum, mint cordial, lime fresh, mineral water",
           "price": 398.0
         },
         {
-          "subcategory": "It`s summer time!",
+          "subcategory": "Сезонні",
           "name": "Bacardi cola",
           "description": "Rum, cola, lime fresh",
           "price": 398.0
         },
         {
-          "subcategory": "It`s summer time!",
+          "subcategory": "Сезонні",
           "name": "Raspberry Sour",
           "description": "Raspberry rum, lemon fresh, sugar syrup, easy foam",
           "price": 249.0
         },
         {
-          "subcategory": "It`s summer time!",
+          "subcategory": "Сезонні",
           "name": "Virgin Colada",
           "description": "Rum, orange juice, coconut cream",
           "price": 259.0
         },
         {
-          "subcategory": "It`s summer time!",
+          "subcategory": "Сезонні",
           "name": "Gin Garden",
           "description": "Gin, elderflower, sugar syrup, lemon fresh, apple juice",
           "price": 249.0
         },
         {
-          "subcategory": "It`s summer time!",
+          "subcategory": "Сезонні",
           "name": "Orange Soda",
           "description": "Jameson Orange, lemon fresh, sugar syrup, Schweppes",
           "price": 265.0
         },
         {
-          "subcategory": "It`s summer time!",
+          "subcategory": "Сезонні",
           "name": "Berry Splash",
           "description": "Raspberry rum, lemon fresh, sugar syrup, blackcurrant, soda water",
           "price": 249.0
         },
         {
-          "subcategory": "It`s summer time!",
+          "subcategory": "Сезонні",
           "name": "Orange Boulevardier",
           "description": "Jameson Orange, Campari, Martini rosso",
           "price": 265.0
         },
         {
-          "subcategory": "It`s summer time!",
+          "subcategory": "Сезонні",
           "name": "French Garden",
           "description": "Gin, elderflower, sugar syrup, lemon fresh, cider",
           "price": 259.0
@@ -625,15 +625,15 @@
         },
         {
           "subcategory": "Класичні коктейлі",
-          "name": "Tequila Sunrise",
-          "description": "Tequila, orange juice, grenadine.",
-          "price": 249.0
-        },
-        {
-          "subcategory": "Класичні коктейлі",
           "name": "Whiskey Sour",
           "description": "Whiskey, lemon fresh, sugar syrup, easy foam",
           "price": 265.0
+        },
+        {
+          "subcategory": "Класичні коктейлі",
+          "name": "Tequila Sunrise",
+          "description": "Tequila, orange juice, grenadine.",
+          "price": 249.0
         },
         {
           "subcategory": "Класичні коктейлі",
@@ -816,25 +816,25 @@
           "price": 219.0
         },
         {
-          "subcategory": "Біттери",
+          "subcategory": "Лікери",
           "name": "Becherovka",
           "description": "Унікальний чеський трав'яний лікер, який вже понад 200 років захоплює своїм неповторним смаком.Складний букет з понад 30 трав та спецій створює неповторний смак, який поєднує в собі гіркоту, солодкість та пряні нотки.",
           "price": 119.0
         },
         {
-          "subcategory": "Біттери",
+          "subcategory": "Лікери",
           "name": "Jagermeister",
           "description": "Культовий німецький трав'яний лікер, який вже понад 80 років захоплює своїм унікальним смаком. Створений за секретною рецептурою з понад 56 різних трав та коренів.Складний букет трав та спецій створює неповторний смак, який поєднує в собі гіркоту, солодкість та пряні нотки.",
           "price": 119.0
         },
         {
-          "subcategory": "Біттери",
+          "subcategory": "Лікери",
           "name": "Sambuca",
           "description": "Італійський лікер, який вже понад 70 років захоплює своїм унікальним смаком. Її виражені анісові нотки, солодкість та легка гіркота створюють неповторний смак, який підкорить навіть найвибагливіших гурманів.",
           "price": 139.0
         },
         {
-          "subcategory": "Біттери",
+          "subcategory": "Лікери",
           "name": "Baileys",
           "description": "Ірландський крем-лікер, виготовлений з найкращих інгредієнтів: вершків, віскі та ірландського шоколаду. Його багатий, вершковий смак з нотками кави та ванілі створює незабутнє враження.",
           "price": 129.0
