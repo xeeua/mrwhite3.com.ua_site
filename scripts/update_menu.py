@@ -69,14 +69,14 @@ GA_SNIPPET = '''<script async src="https://www.googletagmanager.com/gtag/js?id=G
 def render_header() -> str:
     return f'''<header class="site-header" id="top">
   <div class="container header-inner">
-    <a href="index.html" class="logo" aria-label="Mr.White 3">
+    <a href="/" class="logo" aria-label="Mr.White 3">
       <span class="logo-neon">White</span>
     </a>
     <nav class="main-nav" id="mainNav">
-      <a href="index.html#about">Про нас</a>
-      <a href="menu.html">Меню</a>
-      <a href="promo.html">Акції</a>
-      <a href="index.html#contacts">Контакти</a>
+      <a href="/#about">Про нас</a>
+      <a href="/menu">Меню</a>
+      <a href="/promo">Акції</a>
+      <a href="/#contacts">Контакти</a>
     </nav>
     <div class="header-actions">
       <a href="tel:+380952345566" class="icon-link" aria-label="Подзвонити">☎</a>{SOCIAL_ICONS_HTML}
@@ -295,10 +295,10 @@ def render_menu_html(categories, updated_display: str) -> str:
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Меню — Кальян-бар Mr.White 3 | Київ</title>
 <meta name="description" content="Повне меню кальян-бару Mr.White 3 у Києві: кальяни, коктейлі, кухня, напої та ціни. Оновлено {updated_display}.">
-<link rel="canonical" href="https://mrwhite3.com.ua/menu.html">
+<link rel="canonical" href="https://mrwhite3.com.ua/menu">
 
 <meta property="og:type" content="website">
-<meta property="og:url" content="https://mrwhite3.com.ua/menu.html">
+<meta property="og:url" content="https://mrwhite3.com.ua/menu">
 <meta property="og:title" content="Меню — Кальян-бар Mr.White 3">
 <meta property="og:description" content="Кальяни, коктейлі, кухня та напої в Mr.White 3. Оновлено {updated_display}.">
 <meta property="og:image" content="https://mrwhite3.com.ua/assets/img/lounge.webp">
@@ -374,10 +374,10 @@ def render_promo_html(items, updated_display: str) -> str:
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Акції — Кальян-бар Mr.White 3 | Київ</title>
 <meta name="description" content="Актуальні акції кальян-бару Mr.White 3 у Києві. Оновлено {updated_display}.">
-<link rel="canonical" href="https://mrwhite3.com.ua/promo.html">
+<link rel="canonical" href="https://mrwhite3.com.ua/promo">
 
 <meta property="og:type" content="website">
-<meta property="og:url" content="https://mrwhite3.com.ua/promo.html">
+<meta property="og:url" content="https://mrwhite3.com.ua/promo">
 <meta property="og:title" content="Акції — Кальян-бар Mr.White 3">
 <meta property="og:description" content="Актуальні акції Mr.White 3. Оновлено {updated_display}.">
 <meta property="og:image" content="https://mrwhite3.com.ua/assets/img/lounge.webp">
@@ -427,13 +427,13 @@ def render_sitemap(updated_at: str) -> str:
     <priority>1.0</priority>
   </url>
   <url>
-    <loc>https://mrwhite3.com.ua/menu.html</loc>
+    <loc>https://mrwhite3.com.ua/menu</loc>
     <lastmod>{updated_at}</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://mrwhite3.com.ua/promo.html</loc>
+    <loc>https://mrwhite3.com.ua/promo</loc>
     <lastmod>{updated_at}</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.6</priority>
